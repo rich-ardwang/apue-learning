@@ -1,0 +1,12 @@
+Docker in Visual Studio Code
+
+The Docker extension makes it easy to build, manage, and deploy containerized applications in Visual Studio Code.
+
+This page provides an overview of the Docker extension capabilities; use the side menu to learn more about topics of interest. If you are just getting started with Docker development, try the Docker tutorial first to understand key Docker concepts.
+Installation#
+
+Install Docker on your machine and add it to the system path.
+
+On Linux, you should also enable Docker CLI for the non-root user account that will be used to run VS Code.
+
+To install the extension, open the Extensions view (Ctrl+Shift+X), search for docker to filter results and select Docker extension authored by Microsoft.
