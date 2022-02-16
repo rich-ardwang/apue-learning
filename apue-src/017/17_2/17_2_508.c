@@ -32,9 +32,14 @@ helper(void *arg)
 	struct threadinfo	*tip = arg;
 
 	for (;;) {
+		// 将mymesg结构体中的元素初始化为0。
 		memset(&m, 0, sizeof(m));
+		// 从消息队列中读取消息。
 		if ((n = msgrcv(tip->qid, &m, MAXMSZ, 0, MSG_NOERROR)) < 0)
 			err_sys("msgrcv error");
+		// 成功读取消息后，将消息内容写入消息队列ID对应的文件描述符。
+		// 主线程使用I/O多路转接的poll技术，时刻准备接收来自UNIX域
+		// 套接字管道中的数据。
 		if (write(tip->fd, m.mtext, n) < 0)
 			err_sys("write error");
 	}
@@ -68,6 +73,7 @@ main()
 		// 参数1：消息队列的键值。
 		// 参数2：消息队列标志位，IPC_CREAT表示创建，0666是设置消息
 		// 队列权限位，表示用户读写、组读写、其他读写。
+		// 返回值：消息队列ID。
 		if ((qid[i] = msgget((KEY+i), IPC_CREAT|0666)) < 0)
 			err_sys("msgget error");
 
@@ -95,10 +101,15 @@ main()
 	for (;;) {
 		// poll阻塞等待有符合要求的事件发生，一旦poll返回，如果返回值n大于0,
 		// 意味着pfd数组中有n个描述符已经准备好，可以进行读取。
-		if (poll(pfd, NQ, -1) < 0)
+		int res = poll(pfd, NQ, -1);
+		if (res < 0)
 			err_sys("poll error");
 		// poll函数返回值非负，意味着已经有0～3个fd准备好，可以进行读取。
 		// 对这些描述符进行轮询。
+		// 功能优化：
+		// 原代码中当poll返回0时也会进行3次轮询，这是没有意义的，修改如下：
+		else if (res == 0)
+			continue;
 		for (i = 0; i < NQ; i++) {
 			// 一旦有events中设置的flag事件发生，poll也会将这些事件放在
 			// 输出事件revents中，我们只要让revents与感兴趣的flag进行按
