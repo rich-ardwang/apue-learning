@@ -2,15 +2,18 @@
 #include <errno.h>
 #include <limits.h>
 
+// 声明两个静态函数，用于实现打印sysconf和pathconf的返回结果。
 static void pr_sysconf(char *, int);
 static void pr_pathconf(char *, char *, int);
 
 int
 main(int argc, char *argv[])
 {
+	// 必须提供一个路径参数，在后面pathconf调用时会用到。
 	if (argc != 2)
 		err_quit("usage: a.out <dirname>");
 
+// exec函数的参数最大长度(字节)。
 #ifdef ARG_MAX
 	printf("ARG_MAX defined to be %ld\n", (long)ARG_MAX+0);
 #else
@@ -21,6 +24,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_ARG_MAX\n");
 #endif
+// 可用atexit函数登记的最大函数个数。
 #ifdef ATEXIT_MAX
 	printf("ATEXIT_MAX defined to be %ld\n", (long)ATEXIT_MAX+0);
 #else
@@ -31,6 +35,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_ATEXIT_MAX\n");
 #endif
+// 
 #ifdef CHARCLASS_NAME_MAX
 	printf("CHARCLASS_NAME_MAX defined to be %ld\n", (long)CHARCLASS_NAME_MAX+0);
 #else
@@ -41,6 +46,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_CHARCLASS_NAME_MAX\n");
 #endif
+// 每个实际用户ID的最大进程数。
 #ifdef CHILD_MAX
 	printf("CHILD_MAX defined to be %ld\n", (long)CHILD_MAX+0);
 #else
@@ -51,6 +57,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_CHILD_MAX\n");
 #endif
+// 每秒时钟滴答数。
 #ifdef CLOCKTICKSPERSECOND /*clock ticks/second*/
 	printf("CLOCKTICKSPERSECOND /*clock ticks/second*/ defined to be %ld\n", (long)CLOCKTICKSPERSECOND /*clock ticks/second*/+0);
 #else
@@ -61,6 +68,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_CLK_TCK\n");
 #endif
+// 在本地定义文件中可以赋予LC_COLLATE顺序关键字项的最大权重数。
 #ifdef COLL_WEIGHTS_MAX
 	printf("COLL_WEIGHTS_MAX defined to be %ld\n", (long)COLL_WEIGHTS_MAX+0);
 #else
@@ -71,6 +79,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_COLL_WEIGHTS_MAX\n");
 #endif
+// 定时器最大超限运行次数。
 #ifdef DELAYTIMER_MAX
 	printf("DELAYTIMER_MAX defined to be %ld\n", (long)DELAYTIMER_MAX+0);
 #else
@@ -81,6 +90,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_DELAYTIMER_MAX\n");
 #endif
+// gethostname函数返回的主机名最大长度。
 #ifdef HOST_NAME_MAX
 	printf("HOST_NAME_MAX defined to be %ld\n", (long)HOST_NAME_MAX+0);
 #else
@@ -91,6 +101,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_HOST_NAME_MAX\n");
 #endif
+// readv或writev函数可以使用最多的iovec结构的个数。
 #ifdef IOV_MAX
 	printf("IOV_MAX defined to be %ld\n", (long)IOV_MAX+0);
 #else
@@ -101,6 +112,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_IOV_MAX\n");
 #endif
+// 实用程序输入行的最大长度。
 #ifdef LINE_MAX
 	printf("LINE_MAX defined to be %ld\n", (long)LINE_MAX+0);
 #else
@@ -111,6 +123,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_LINE_MAX\n");
 #endif
+// 登录名的最大长度。
 #ifdef LOGIN_NAME_MAX
 	printf("LOGIN_NAME_MAX defined to be %ld\n", (long)LOGIN_NAME_MAX+0);
 #else
@@ -121,6 +134,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_LOGIN_NAME_MAX\n");
 #endif
+// 每个进程同时添加的最大进程组ID数。
 #ifdef NGROUPS_MAX
 	printf("NGROUPS_MAX defined to be %ld\n", (long)NGROUPS_MAX+0);
 #else
@@ -131,6 +145,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_NGROUPS_MAX\n");
 #endif
+// 每个进程最大打开文件数。
 #ifdef OPEN_MAX
 	printf("OPEN_MAX defined to be %ld\n", (long)OPEN_MAX+0);
 #else
@@ -141,6 +156,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_OPEN_MAX\n");
 #endif
+// 系统存储页长度(字节数)。
 #ifdef PAGESIZE
 	printf("PAGESIZE defined to be %ld\n", (long)PAGESIZE+0);
 #else
@@ -151,6 +167,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_PAGESIZE\n");
 #endif
+// 系统存储页长度(字节数)。
 #ifdef PAGE_SIZE
 	printf("PAGE_SIZE defined to be %ld\n", (long)PAGE_SIZE+0);
 #else
@@ -161,6 +178,8 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_PAGE_SIZE\n");
 #endif
+// 当使用间隔表示法\{m,n\}时，函数regexec和regcomp允许的基本正则表达式
+// 重复发生次数。
 #ifdef RE_DUP_MAX
 	printf("RE_DUP_MAX defined to be %ld\n", (long)RE_DUP_MAX+0);
 #else
@@ -171,6 +190,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_RE_DUP_MAX\n");
 #endif
+// 为应用程序预留的实时信号的最大个数。
 #ifdef RTSIG_MAX
 	printf("RTSIG_MAX defined to be %ld\n", (long)RTSIG_MAX+0);
 #else
@@ -181,6 +201,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_RTSIG_MAX\n");
 #endif
+// 一个进程可使用的信号量最大个数。
 #ifdef SEM_NSEMS_MAX
 	printf("SEM_NSEMS_MAX defined to be %ld\n", (long)SEM_NSEMS_MAX+0);
 #else
@@ -191,6 +212,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_SEM_NSEMS_MAX\n");
 #endif
+// 信号量的最大值。
 #ifdef SEM_VALUE_MAX
 	printf("SEM_VALUE_MAX defined to be %ld\n", (long)SEM_VALUE_MAX+0);
 #else
@@ -201,6 +223,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_SEM_VALUE_MAX\n");
 #endif
+// 一个进程可排队信号的最大个数。
 #ifdef SIGQUEUE_MAX
 	printf("SIGQUEUE_MAX defined to be %ld\n", (long)SIGQUEUE_MAX+0);
 #else
@@ -211,6 +234,8 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_SIGQUEUE_MAX\n");
 #endif
+// 一个_SC_STREAM_MAX进程在任意给定时刻标准I/O流的最大个数，
+// 如果定义，必须与FOPEN_MAX有相同值。
 #ifdef STREAM_MAX
 	printf("STREAM_MAX defined to be %ld\n", (long)STREAM_MAX+0);
 #else
@@ -221,6 +246,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_STREAM_MAX\n");
 #endif
+// 在解析路径时，可遍历的符号链接数。
 #ifdef SYMLOOP_MAX
 	printf("SYMLOOP_MAX defined to be %ld\n", (long)SYMLOOP_MAX+0);
 #else
@@ -231,6 +257,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_SYMLOOP_MAX\n");
 #endif
+// 每个进程的最大定时器个数。
 #ifdef TIMER_MAX
 	printf("TIMER_MAX defined to be %ld\n", (long)TIMER_MAX+0);
 #else
@@ -241,6 +268,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_TIMER_MAX\n");
 #endif
+// 终端设备名长度，包括终止null字节。
 #ifdef TTY_NAME_MAX
 	printf("TTY_NAME_MAX defined to be %ld\n", (long)TTY_NAME_MAX+0);
 #else
@@ -251,6 +279,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_TTY_NAME_MAX\n");
 #endif
+// 时区名中的最大字节数。
 #ifdef TZNAME_MAX
 	printf("TZNAME_MAX defined to be %ld\n", (long)TZNAME_MAX+0);
 #else
@@ -261,6 +290,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _SC_TZNAME_MAX\n");
 #endif
+// 以带符号整型值表示在指定目录中允许的普通文件最大长度所需的最小位(bit)数。
 #ifdef FILESIZEBITS
 	printf("FILESIZEBITS defined to be %ld\n", (long)FILESIZEBITS+0);
 #else
@@ -271,6 +301,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _PC_FILESIZEBITS\n");
 #endif
+// 文件链接计数的最大值。
 #ifdef LINK_MAX
 	printf("LINK_MAX defined to be %ld\n", (long)LINK_MAX+0);
 #else
@@ -281,6 +312,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _PC_LINK_MAX\n");
 #endif
+// 终端规范输入队列的最大字节数。
 #ifdef MAX_CANON
 	printf("MAX_CANON defined to be %ld\n", (long)MAX_CANON+0);
 #else
@@ -291,6 +323,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _PC_MAX_CANON\n");
 #endif
+// 终端输入队列可用空间的字节数。
 #ifdef MAX_INPUT
 	printf("MAX_INPUT defined to be %ld\n", (long)MAX_INPUT+0);
 #else
@@ -301,6 +334,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _PC_MAX_INPUT\n");
 #endif
+// 文件名的最大字节数(不包括终止null字节)。
 #ifdef NAME_MAX
 	printf("NAME_MAX defined to be %ld\n", (long)NAME_MAX+0);
 #else
@@ -311,6 +345,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _PC_NAME_MAX\n");
 #endif
+// 相对路径名的最大字节数，包括终止null字节。
 #ifdef PATH_MAX
 	printf("PATH_MAX defined to be %ld\n", (long)PATH_MAX+0);
 #else
@@ -321,6 +356,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _PC_PATH_MAX\n");
 #endif
+// 能原子地写到管道的最大字节数。
 #ifdef PIPE_BUF
 	printf("PIPE_BUF defined to be %ld\n", (long)PIPE_BUF+0);
 #else
@@ -331,6 +367,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _PC_PIPE_BUF\n");
 #endif
+// 符号链接的字节数。
 #ifdef SYMLINK_MAX
 	printf("SYMLINK_MAX defined to be %ld\n", (long)SYMLINK_MAX+0);
 #else
@@ -341,6 +378,7 @@ main(int argc, char *argv[])
 #else
 	printf("no symbol for _PC_SYMLINK_MAX\n");
 #endif
+// 文件时间戳的纳秒精度。
 #ifdef _POSIX_TIMESTAMP_RESOLUTION
 	printf("_POSIX_TIMESTAMP_RESOLUTION defined to be %ld\n", (long)_POSIX_TIMESTAMP_RESOLUTION+0);
 #else
@@ -354,44 +392,71 @@ main(int argc, char *argv[])
 	exit(0);
 }
 
+// 打印输出sysconf调用结果。
 static void
 pr_sysconf(char *mesg, int name)
 {
 	long val;
 
+	// 先输出包含目标符号的部分字符串。
 	fputs(mesg, stdout);
 	errno = 0;
+	// 调用sysconf获取目标符号被定义的值。
+	// 有的符号值不会改变，一般在编译时可以确定，有的符号值需要在运行时确定，
+	// 这就需要调用sysconf来动态获取。
 	if ((val = sysconf(name)) < 0) {
+		// sysconf返回值小于0时需要检验errno的值。
 		if (errno != 0) {
+			// 如果errno非0，且被设置为EINVAL，说明系统不支持该符号。
 			if (errno == EINVAL)
 				fputs(" ( not supported)\n", stdout);
+			// 如果errno非0，且不为EINVAL，说明sysconf调用出错。
 			else
 				err_sys("sysconf error");
 		} else {
+			// 如果errno为0，也就是它没有被重置过，说明符号值无限制。
 			fputs(" (no limit)\n", stdout);
 		}
 	 } else {
+		 // 如果sysconf返回值大于等于0，说明它正常获取到符号值。
 		printf(" %ld\n", val);
 	}
 }
 
+// 打印输出pathconf调用结果。
 static void
 pr_pathconf(char *mesg, char *path, int name)
 {
 	long val;
 
+	// 先输出包含目标符号的部分字符串。
 	fputs(mesg, stdout);
 	errno = 0;
+	// 调用pathconf获取目标符号被定义的值。
+	// 有的符号值不会改变，一般在编译时可以确定，有的符号值需要在运行时确定，
+	// 这就需要调用pathconf来动态获取。
 	if ((val = pathconf(path, name)) < 0) {
+		// pathconf返回值小于0时需要检验errno的值。
 		if (errno != 0) {
+			// 如果errno非0，且被设置为EINVAL，说明系统不支持该符号。
 			if (errno == EINVAL)
 				fputs(" (not supported)\n", stdout);
+			// 如果errno非0，且不为EINVAL，说明pathconf调用出错。
 			else
 				err_sys("pathconf error, path = %s", path);
 		} else {
+			// 如果errno为0，也就是它没有被重置过，说明符号值无限制。
 			fputs(" (no limit)\n", stdout);
 		}
 	} else {
+		// 如果pathconf返回值大于等于0，说明它正常获取到符号值。
 		printf(" %ld\n", val);
 	}
 }
+
+// 注意
+// 该程序代码由2_5_4_35.sh，pathconf.sym和sysconf.sym三个文件自动
+// 生成，使用了linux三剑客之awk技术，两个sym文件包含了制表符分隔的限制
+// 名和符号列表。
+// 并非每种平台都定义所有符号，所以每个pathconf和sysconf调用，awk程序
+// 都使用了必要的#ifdef语句。
